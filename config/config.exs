@@ -14,7 +14,10 @@ use Mix.Config
        level: :debug,
        format: "$date $time [$level] $metadata$message\n",
        metadata: [:user_id]
-     config :myswt, server_port: 8081
+     config :myswt, 
+     	app: :my_main_app,
+     	server_port: 8081,
+     	callback_module: Myswt.Example
 
 # It is also possible to import configuration files, relative to this
 # directory. For example, you can emulate configuration per environment

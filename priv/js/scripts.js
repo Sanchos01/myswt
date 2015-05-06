@@ -7,67 +7,30 @@
   controllers = {};
 
   controllers.my_controller = function($scope, $http, $interval, $cookieStore) {
+    $scope.foo = function(foo) {
+      return $scope.send_message("foo", foo);
+    };
+    $scope.bar = function(bar) {
+      return $scope.send_message("bar", bar);
+    };
     $scope.init_const_and_vars = function() {
-      var term;
-      term = {
-        on: [],
-        off: []
-      };
       $scope.search = {};
-      $scope.search.terminals = {};
-      $scope.search.filters = {};
-      $scope.search.stat = {};
       if ($cookieStore.get("opts") === void 0) {
         $scope.opts = {};
-        $scope.opts.current_showing_type = "auth";
-        $scope.opts.task_cols = [
-          {
-            field: 'uuid',
-            visible: true
-          }, {
-            field: 'comment',
-            visible: true
-          }, {
-            field: 'ids',
-            visible: true
-          }, {
-            field: 'type',
-            visible: true
-          }, {
-            field: 'override',
-            visible: true
-          }, {
-            field: 'status',
-            visible: true
-          }
-        ];
-        $scope.opts.access_token = "";
-        $scope.opts.proxy = "";
-        $scope.opts.my_uid = 0;
+        $scope.opts.current_showing_type = "foo";
       } else {
         $scope.opts = $cookieStore.get("opts");
       }
       $scope.cached = {};
-      return $scope.cached.task_new = {
-        comment: "",
-        ids: "",
-        type: "group",
-        override: false
-      };
+      $scope.cached.foo = 0;
+      $scope.cached.bar = "hello, world";
+      return $scope.cached.foo_list = [];
     };
-    $scope.send_message = function(mess) {
-      return $scope.bullet.send(JSON.stringify(mess));
-    };
-    $scope.auth = function(token, my_uid, proxy) {
-      $cookieStore.put("opts", $scope.opts);
-      return $scope.send_message({
-        "subject": "auth",
-        "content": {
-          "token": token,
-          "uid": my_uid,
-          "proxy": proxy
-        }
-      });
+    $scope.send_message = function(subject, content) {
+      return $scope.bullet.send(JSON.stringify({
+        "subject": subject,
+        "content": content
+      }));
     };
     return $scope.init = function() {
       $scope.init_const_and_vars();
@@ -81,43 +44,38 @@
       $scope.bullet.onclose = function() {
         return console.log("bullet: closed");
       };
-      $scope.bullet.onmessage = function(e) {
-        var mess;
+      $scope.bullet.onheartbeat = function() {
+        return $scope.send_message("ping", "nil");
+      };
+      $interval($cookieStore.put("opts", $scope.opts), 3000, [], []);
+      return $scope.bullet.onmessage = function(e) {
+        var content, mess, subject;
         mess = $.parseJSON(e.data);
-        if (mess.subject === "error") {
+        subject = mess.subject;
+        content = mess.content;
+        if (subject === "error") {
           return $.growl.error({
-            message: mess.content,
+            message: content,
             duration: 20000
           });
-        } else if (mess.subject === "warn") {
+        } else if (subject === "warn") {
           return $.growl.warning({
-            message: mess.content,
+            message: content,
             duration: 20000
           });
-        } else if (mess.subject === "notice") {
+        } else if (subject === "notice") {
           return $.growl.notice({
-            message: mess.content,
+            message: content,
             duration: 20000
           });
-        } else if (mess.subject === "auth") {
-          $scope.opts.current_showing_type = "vk_db";
-          return $.growl.notice({
-            message: mess.content,
-            duration: 20000
-          });
-        } else if (mess.subject === "pong") {
+        } else if (subject === "pong") {
           return "ok";
+        } else if (subject === "foo") {
+          return $scope.cached.foo_list.push(content);
         } else {
           return alert("Unexpected message = " + e.data);
         }
       };
-      $scope.bullet.onheartbeat = function() {
-        return $scope.send_message({
-          "subject": "ping",
-          "content": "nil"
-        });
-      };
-      return $interval($scope.bullet.onheartbeat, 1000, [], []);
     };
   };
 

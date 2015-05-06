@@ -1,4 +1,5 @@
 defmodule Myswt do
+  @create_priv Myswt.ClientCallbacks.create_priv
   use Application
   use Myswt.Srtucts
   require Logger
@@ -7,7 +8,7 @@ defmodule Myswt do
   # for more information on OTP Applications
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
-    :ok = :pg2.create("web_viewers")
+    :ok = :pg2.create("myswt_web_viewers")
 	compile_iced
     children = [
       # Define workers and child supervisors to be supervised
@@ -41,27 +42,40 @@ defmodule Myswt do
 	  	end
 	end
 
+	#
+	#	public
+	#
+
 	def notice(bin) when is_binary(bin) do
-		notify_web(%Myswt.Proto{subject: "notice", content: bin})
+		send_all(%Myswt.Proto{subject: "notice", content: bin})
 		Logger.debug bin
 	end
 	def warn(bin) when is_binary(bin) do
-		notify_web(%Myswt.Proto{subject: "warn", content: bin})
+		send_all(%Myswt.Proto{subject: "warn", content: bin})
 		Logger.warn bin
 	end
 	def error(bin) when is_binary(bin) do
-		notify_web(%Myswt.Proto{subject: "error", content: bin})
+		send_all(%Myswt.Proto{subject: "error", content: bin})
 		Logger.error bin
 	end	
+
+	def send_all(some = %Myswt.Proto{}) do
+		mess = Myswt.encode(some)
+		:pg2.get_members("myswt_web_viewers")
+		|> Enum.each( &(send(&1, {:json, mess})) )
+	end
+	def send_all_direct(bin) when is_binary(bin) do
+		:pg2.get_members("myswt_web_viewers")
+		|> Enum.each( &(send(&1, {:json, bin})) )
+	end
 
 	def encode(some), do: Jazz.encode!(some)
 	def decode(some), do: Jazz.decode!(some, [keys: :atoms])
 
-	defp notify_web(some) do
-		mess = Myswt.encode(some)
-		:pg2.get_members("web_viewers")
-		|> Enum.each( &(send(&1, {:json, mess})) )
-	end
+	#
+	#	priv
+	#
+
 	defp compile_iced do
 		res = :os.cmd("cd #{Exutils.priv_dir(:myswt)}/iced && iced -c ./scripts.iced && mv ./scripts.js ../js/scripts.js" |> String.to_char_list)
 		Myswt.notice "#{__MODULE__} : iced compilation result : #{inspect res}"

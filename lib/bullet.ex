@@ -16,7 +16,7 @@ defmodule Myswt.Bullet do
     {
       :reply,
       case Myswt.decode(data) do
-        %{subject: subject, content: content} -> handle_message_from_client(%Myswt.Proto{subject: subject, content: content})
+        %{subject: subject, content: content} -> handle_myswt(%Myswt.Proto{subject: subject, content: content})
         err -> %Myswt.Proto{content: "#{__MODULE__} : Error on protocol from client. Content: #{inspect err}"} |> Myswt.encode
       end,
       req,
@@ -43,10 +43,8 @@ defmodule Myswt.Bullet do
   ### private handlers for mess from client ###
   #############################################
 
-  defp handle_message_from_client(%Myswt.Proto{subject: "ping"}), do: @pong
-  #
-  #	TODO
-  #
-  defp handle_message_from_client(some), do: %Myswt.Proto{subject: "error", content: "#{__MODULE__} : wrong command #{inspect some}"} |> Myswt.encode
+  defp handle_myswt(%Myswt.Proto{subject: "ping"}), do: @pong
+  use Myswt.ClientCallbacks
+  defp handle_myswt(some), do: %Myswt.Proto{subject: "error", content: "#{__MODULE__} : wrong command #{inspect some}"} |> Myswt.encode
 
 end

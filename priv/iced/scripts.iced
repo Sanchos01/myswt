@@ -1,35 +1,29 @@
 web_interface = angular.module "web_interface", ["ngTable", "ngCookies"] 
 controllers = {}
 controllers.my_controller = ($scope, $http, $interval, $cookieStore) ->
+	#
+	#	interface handlers
+	#
+	$scope.foo = (foo) ->
+		$scope.send_message("foo", foo)
+	$scope.bar = (bar) ->
+		$scope.send_message("bar", bar)
+	#
+	#	proto callbacks
+	#
 	$scope.init_const_and_vars = () ->
-		term = {on: [], off: []}
 		$scope.search = {}
-		$scope.search.terminals = {}
-		$scope.search.filters = {}
-		$scope.search.stat = {}
 		if $cookieStore.get("opts") == undefined
 			$scope.opts = {}
-			$scope.opts.current_showing_type = "auth"
-			$scope.opts.task_cols = [
-						{ field: 'uuid', visible: true },
-						{ field: 'comment', visible: true },
-						{ field: 'ids', visible: true },
-						{ field: 'type', visible: true },
-						{ field: 'override', visible: true }
-						{ field: 'status', visible: true }
-					]
-			$scope.opts.access_token = ""
-			$scope.opts.proxy = ""
-			$scope.opts.my_uid = 0
+			$scope.opts.current_showing_type = "foo"
 		else
 			$scope.opts = $cookieStore.get("opts")
 		$scope.cached = {}
-		$scope.cached.task_new = {comment: "", ids: "", type: "group", override: false}
-	$scope.send_message = (mess) ->
-		$scope.bullet.send(JSON.stringify(mess))
-	$scope.auth = (token, my_uid, proxy) ->
-		$cookieStore.put("opts", $scope.opts)
-		$scope.send_message {"subject": "auth", "content": {"token": token, "uid": my_uid, "proxy": proxy}}
+		$scope.cached.foo = 0
+		$scope.cached.bar = "hello, world"
+		$scope.cached.foo_list = []
+	$scope.send_message = (subject, content) ->
+		$scope.bullet.send(JSON.stringify({"subject": subject,"content": content}))
 	$scope.init = () ->
 		$scope.init_const_and_vars()
 		$scope.bullet = $.bullet("ws://" + location.host + "/bullet")
@@ -39,22 +33,26 @@ controllers.my_controller = ($scope, $http, $interval, $cookieStore) ->
 			console.log("bullet: disconnected")
 		$scope.bullet.onclose = () ->
 			console.log("bullet: closed")
+		$scope.bullet.onheartbeat = () ->
+			$scope.send_message("ping","nil")
+		$interval( $cookieStore.put("opts", $scope.opts) , 3000, [], [])
 		$scope.bullet.onmessage = (e) ->
 			mess = $.parseJSON(e.data)
-			if mess.subject == "error" 
-				$.growl.error({ message: mess.content , duration: 20000})
-			else if mess.subject == "warn"
-				$.growl.warning({ message: mess.content , duration: 20000})
-			else if mess.subject == "notice"
-				$.growl.notice({ message: mess.content , duration: 20000})
-			else if mess.subject == "auth"
-				$scope.opts.current_showing_type = "vk_db"
-				$.growl.notice({ message: mess.content , duration: 20000})
-			else if mess.subject == "pong"
+			subject = mess.subject
+			content = mess.content
+			if subject == "error" 
+				$.growl.error({ message: content , duration: 20000})
+			else if subject == "warn"
+				$.growl.warning({ message: content , duration: 20000})
+			else if subject == "notice"
+				$.growl.notice({ message: content , duration: 20000})
+			else if subject == "pong"
 				"ok"
+			#
+			#	handle messages from server
+			#
+			else if subject == "foo"
+				$scope.cached.foo_list.push content
 			else
 				alert "Unexpected message = "+e.data
-		$scope.bullet.onheartbeat = () ->
-			$scope.send_message {"subject": "ping","content": "nil"}
-		$interval( $scope.bullet.onheartbeat , 1000, [], [])
 web_interface.controller(controllers)
