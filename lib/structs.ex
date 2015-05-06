@@ -20,9 +20,9 @@ defmodule Myswt.ClientCallbacks do
 		end
 	end
 
-	def create_priv do
-		main_priv = Exutils.priv_dir(:application.get_env(:myswt, :app, nil))
-		File.mkdir(main_priv)
-		File.ln_s(Exutils.priv_dir(:myswt), main_priv<>"/myswt")
+	def maybe_reset_priv do
+		if not(File.exists?("./priv")) do
+			File.cp!(Exutils.priv_dir(:myswt), "./priv")
+		end
 	end
 end

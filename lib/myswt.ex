@@ -1,5 +1,5 @@
 defmodule Myswt do
-  @create_priv Myswt.ClientCallbacks.create_priv
+  @maybe_reset_priv Myswt.ClientCallbacks.maybe_reset_priv
   use Application
   use Myswt.Srtucts
   require Logger
@@ -29,12 +29,13 @@ defmodule Myswt do
 
 	defmodule WebServer do
 		@port :application.get_env(:myswt, :server_port, nil)
+		@main_app :application.get_env(:myswt, :app, nil)
 		def start do
 			dispatch = :cowboy_router.compile([
 	                    {:_, [
 	                             {"/bullet", :bullet_handler, [{:handler, Myswt.Bullet}]},
-	                             {"/", :cowboy_static, {:priv_file, :myswt, "index.html"}},
-	                             {"/[...]", :cowboy_static, {:priv_dir, :myswt, "", [{:mimetypes, :cow_mimetypes, :all}]}}
+	                             {"/", :cowboy_static, {:priv_file, @main_app, "index.html"}},
+	                             {"/[...]", :cowboy_static, {:priv_dir, @main_app, "", [{:mimetypes, :cow_mimetypes, :all}]}}
 	                      ]} ])
 		  	res = {:ok, _} = :cowboy.start_http(:http_test_listener, 5000, [port: @port], [env: [ dispatch: dispatch ] ])
 		  	Myswt.notice "HTTP MYSWT server started at port #{@port}"
