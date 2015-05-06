@@ -77,10 +77,13 @@ defmodule Myswt do
 	#	priv
 	#
 
+	@main_app :application.get_env(:myswt, :app, nil)
 	defp compile_iced do
-		res = :os.cmd("cd #{Exutils.priv_dir(:myswt)}/iced && iced -c ./scripts.iced && mv ./scripts.js ../js/scripts.js" |> String.to_char_list)
-		Myswt.notice "#{__MODULE__} : iced compilation result : #{inspect res}"
-		File.read!( Exutils.priv_dir(:myswt)<>"/js/scripts.js" )
+		case :os.cmd("cd #{Exutils.priv_dir(@main_app)}/iced && iced -c ./scripts.iced && mv ./scripts.js ../js/scripts.js" |> String.to_char_list) do
+			[] -> Myswt.error "#{__MODULE__} : iced compilation ok."
+			error -> Myswt.error "#{__MODULE__} : iced compilation result : #{inspect error}"
+		end
+		File.read!( Exutils.priv_dir(@main_app)<>"/js/scripts.js" )
 	end
 
 end

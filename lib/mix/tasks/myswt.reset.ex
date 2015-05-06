@@ -5,7 +5,7 @@ defmodule Mix.Tasks.Myswt.Reset do
 			true -> 
 				IO.puts "FAIL, priv dir is already exist!"
 			false ->
-				File.cp!(Exutils.priv_dir(:myswt), "./priv")
+				File.cp_r!(Exutils.priv_dir(:myswt)<>"/priv", "./priv")
 				IO.puts "SUCCESS, priv dir with MYSWT template created!"
 		end
 	end
