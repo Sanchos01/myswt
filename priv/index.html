@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html ng-app="web_interface">
+  <head>
+
+    <meta content="text/html" charset="UTF-8" http-equiv="Content-Type">
+
+    <title>welcome MYSWT framework</title>
+    <link href="./css/bootstrap.css" rel="stylesheet" media="screen">
+    <link href="./css/ng-table.css" rel="stylesheet" media="screen">
+    <link href="./css/jquery.growl.css" rel="stylesheet" media="screen">
+    <link href="./css/style.css" rel="stylesheet" media="screen">
+    <!--link href="./css/json-formatter.css" rel="stylesheet" type="text/css"-->
+    <!--link href="./css/angular.treeview.css" rel="stylesheet" type="text/css"-->
+    <script src="./js/jquery.js"></script>
+    <script src="./js/bootstrap.js"></script>
+    <script src="./js/angular.js"></script>
+    <script src="./js/ng-table.js"></script>
+    <script src="./js/jquery.growl.js"></script>
+    <!--script src="./js/json-formatter.js"></script-->
+    <!--script src="./js/angular.treeview.js"></script-->
+    <script src="./js/angular-cookies.js"></script>
+    <script src="./js/bullet.js"></script>
+    <script src="./js/scripts.js"></script>
+  </head>
+  <body ng-controller="my_controller" ng-init="init()">
+    <div class="container-fluid">
+      <!-- 
+      #
+      # navigation panel 
+      #
+      -->
+      <div class="span2">
+        <form ng-show="opts.current_showing_type != 'auth'">
+          <br>
+          <input type="radio" ng-model="opts.current_showing_type" value="vk_db"> из VK в базу <br><br>
+          <input type="radio" ng-model="opts.current_showing_type" value="db_file"> из базы в файл <br><br>
+        </form>
+      </div>
+      <!-- 
+      #
+      # content
+      #
+      -->
+      <div class="span10">
+      	<div ng-show="opts.current_showing_type == 'auth'">
+      		<br>
+      		ВНИМАНИЕ! Вы используете сервис исключительно на свой страх и риск. Разработчик не несёт никакой ответственности за последствия и ваши действия. Использование непроверенных прокси-серверов небезопасно и может привести (приведёт) к утечке ваших персональных данных.
+      		<br><br>
+      		<input ng-model='opts.my_uid' type="number" placeholder="ввести ваш id vk здесь"><i> id пользователя ВКонтакте</i>
+      		<br><br>
+			<input ng-model='opts.access_token' type="text" placeholder="ввести acess_token здесь"><i> ключ доступа</i>
+			<br><br>
+			<input ng-model='opts.proxy' type="text" placeholder="ввести proxy здесь"><i> прокси</i>
+			<br><br>
+			<button type="button" class="btn btn-primary" ng-click="auth(opts.access_token,opts.my_uid,opts.proxy)">войти</button>
+      		<hr>
+      		Ключ доступа - символы, выделенные на этом рисунке (после перехода по ссылке нажать кнопку "разрешить")
+      		<br><br>
+			<IMG class="myborder" src="./img/token.png"></IMG>
+      		<br><br>
+      		<a  target="_blank" href="https://oauth.vk.com/authorize?client_id=4053347&scope=notify,friends,photos,audio,video,docs,notes,pages,status,offers,questions,wall,groups,messages,notifications,stats,ads,offline&redirect_uri=http://oauth.vk.com/blank.html&display=page&response_type=token"><button type="button" class="btn btn-primary">Получить ключ</button></a>
+      		<br><br>
+      		Для полноценной работы нужно использовать прокси. Страна где расположен прокси-сервер должна совпадать со страной вашего аккаунта. В поле "прокси" необходимо ввести хост/порт прокси-сервера который вы хотите использовать. Получить актуальный список прокси можно по ссылке. Вводить нужно символы, выделенные на этом рисунке. Безопаснее всего использовать в качестве прокси свой компьютер.
+      		<br><br>
+      		<IMG class="myborder" src="./img/proxy.png"></IMG>
+      		<br><br>
+      		<a  target="_blank" href="http://spys.ru/en/https-ssl-proxy/"><button type="button" class="btn btn-primary">Получить прокси</button></a>
+      		<br><br>
+      	</div>
+        <!-- from vk to db -->
+        <div ng-show="opts.current_showing_type == 'vk_db'">
+        TODO
+		</div>
+        <!-- from db to file -->
+        <div ng-show="opts.current_showing_type == 'db_file'">
+        TODO
+		</div>
+      </div>
+    </div>
+  </body>
+</html>
