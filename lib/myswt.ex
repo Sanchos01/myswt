@@ -1,5 +1,4 @@
 defmodule Myswt do
-  @maybe_reset_priv Myswt.ClientCallbacks.maybe_reset_priv
   use Application
   use Myswt.Srtucts
   require Logger
@@ -31,6 +30,7 @@ defmodule Myswt do
 		@port :application.get_env(:myswt, :server_port, nil)
 		@main_app :application.get_env(:myswt, :app, nil)
 		def start do
+			true = (is_integer(@port) and is_atom(@main_app) and (@main_app != nil))
 			dispatch = :cowboy_router.compile([
 	                    {:_, [
 	                             {"/bullet", :bullet_handler, [{:handler, Myswt.Bullet}]},
@@ -83,4 +83,12 @@ defmodule Myswt do
 		File.read!( Exutils.priv_dir(:myswt)<>"/js/scripts.js" )
 	end
 
+end
+
+defmodule Myswt.ClientCallbacks do
+	defmacro __using__(_) do
+		quote location: :keep do
+			use unquote(:application.get_env(:myswt, :callback_module, nil))
+		end
+	end
 end
