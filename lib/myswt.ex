@@ -86,12 +86,12 @@ defmodule Myswt do
 		File.read!( Exutils.priv_dir(@main_app)<>"/js/scripts.js" )
 	end
 
-end
-
-defmodule Myswt.ClientCallbacks do
-	defmacro __using__(_) do
+	defmacro callback_module([do: body]) do
 		quote location: :keep do
-			use unquote(:application.get_env(:myswt, :callback_module, nil))
+		  def handle_myswt(%Myswt.Proto{subject: "ping"}), do: unquote(%Myswt.Proto{subject: "pong", content: ""} |> Myswt.encode)
+		  unquote(body)
+		  def handle_myswt(some), do: %Myswt.Proto{subject: "error", content: "#{__MODULE__} : wrong command #{inspect some}"} |> Myswt.encode
 		end
 	end
+
 end

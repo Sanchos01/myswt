@@ -1,7 +1,7 @@
 
 defmodule Myswt.Bullet do
 
-  @pong %Myswt.Proto{subject: "pong", content: ""} |> Myswt.encode
+  @callback_module :application.get_env(:myswt, :callback_module, nil)
 
   ########################
   ### public callbacks ###
@@ -16,7 +16,7 @@ defmodule Myswt.Bullet do
     {
       :reply,
       case Myswt.decode(data) do
-        %{subject: subject, content: content} -> handle_myswt(%Myswt.Proto{subject: subject, content: content})
+        %{subject: subject, content: content} -> @callback_module.handle_myswt(%Myswt.Proto{subject: subject, content: content})
         err -> %Myswt.Proto{content: "#{__MODULE__} : Error on protocol from client. Content: #{inspect err}"} |> Myswt.encode
       end,
       req,
@@ -38,13 +38,5 @@ defmodule Myswt.Bullet do
   def terminate(_req, _state) do
     :pg2.leave "web_viewers", self
   end
-
-  #############################################
-  ### private handlers for mess from client ###
-  #############################################
-
-  defp handle_myswt(%Myswt.Proto{subject: "ping"}), do: @pong
-  use Myswt.ClientCallbacks
-  defp handle_myswt(some), do: %Myswt.Proto{subject: "error", content: "#{__MODULE__} : wrong command #{inspect some}"} |> Myswt.encode
 
 end

@@ -18,7 +18,7 @@ config :myswt,
 	callback_module: GreatWebApplication.Callbacks
 ```
 
-Write module GreatWebApplication.Callbacks, something like this. Yeah, there is only one &__using__/1 macro. Inside are your own multiple clauses of only one function &handle_myswt/1. 
+Write module GreatWebApplication.Callbacks, something like this. Yeah, there is only one &callback_module/1 macro. Inside are your own multiple clauses of only one function &handle_myswt/1. 
 
 subject - command, binary ("ping" and "pong" commands are reserved, not use them!!!)
 content - some jsonable erlang term
@@ -27,15 +27,14 @@ There are only handlers for messages from client... They all must return binarie
 
 ```
 defmodule GreatWebApplication.Callbacks do
-	defmacro __using__(_) do
-		quote location: :keep do
-			defp handle_myswt(%Myswt.Proto{subject: "foo", content: num}) when is_number(num) do
-				%Myswt.Proto{subject: "foo", content: "sin(#{num}) = #{:math.sin(num)}"} |> Myswt.encode
-			end
-			defp handle_myswt(%Myswt.Proto{subject: "bar", content: bin}) when is_binary(bin) do
-				IO.puts "#{__MODULE__} : message bar from myswt , content \"#{bin}\"."
-				%Myswt.Proto{subject: "notice", content: "OK, bro. Look message in server's console."} |> Myswt.encode
-			end
+	require Myswt
+	Myswt.callback_module do
+		def handle_myswt(%Myswt.Proto{subject: "foo", content: num}) when is_number(num) do
+			%Myswt.Proto{subject: "foo", content: "sin(#{num}) = #{:math.sin(num)}"} |> Myswt.encode
+		end
+		def handle_myswt(%Myswt.Proto{subject: "bar", content: bin}) when is_binary(bin) do
+			IO.puts "#{__MODULE__} : message bar from myswt , content \"#{bin}\"."
+			%Myswt.Proto{subject: "notice", content: "OK, bro. Look message in server's console."} |> Myswt.encode
 		end
 	end
 end
