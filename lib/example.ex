@@ -1,4 +1,5 @@
 defmodule Myswt.Example do
+	use Silverb
 	defmacro __using__(_) do
 		quote location: :keep do
 			defp handle_myswt(%Myswt.Proto{subject: "foo", content: num}) when is_number(num) do

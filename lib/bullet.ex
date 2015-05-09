@@ -1,7 +1,7 @@
 
 defmodule Myswt.Bullet do
 
-  @callback_module :application.get_env(:myswt, :callback_module, nil)
+  use Silverb, [{"@callback_module", :application.get_env(:myswt, :callback_module, nil)}]
 
   ########################
   ### public callbacks ###

@@ -20,7 +20,8 @@ defmodule Myswt.Mixfile do
 						:jazz,
 
 						:exutils,
-						:hashex
+						:hashex,
+						:silverb
     				],
      mod: {Myswt, []}]
   end
@@ -41,7 +42,8 @@ defmodule Myswt.Mixfile do
     	{:jazz, github: "meh/jazz"},
 
     	{:exutils, github: "timCF/exutils"},
-    	{:hashex, github: "timCF/hashex"}
+    	{:hashex, github: "timCF/hashex"},
+    	{:silverb, github: "timCF/silverb"}
     ]
   end
 end

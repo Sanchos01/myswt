@@ -22,13 +22,15 @@ defmodule Myswt do
     res
   end
   def stop(reason) do
-    Myswt.error(:error, "Erlang Halt becouse of reason #{inspect reason}") |> Exutils.safe
+    Myswt.error("Erlang Halt becouse of reason #{inspect reason}") |> Exutils.safe
     :erlang.halt
   end
 
 	defmodule WebServer do
-		@port :application.get_env(:myswt, :server_port, nil)
-		@main_app :application.get_env(:myswt, :app, nil)
+		use Silverb, [
+						{"@port", :application.get_env(:myswt, :server_port, nil)},
+						{"@main_app", :application.get_env(:myswt, :app, nil)}
+					 ]
 		def start do
 			true = (is_integer(@port) and is_atom(@main_app) and (@main_app != nil))
 			dispatch = :cowboy_router.compile([
@@ -77,7 +79,7 @@ defmodule Myswt do
 	#	priv
 	#
 
-	@main_app :application.get_env(:myswt, :app, nil)
+	use Silverb, [{"@main_app", :application.get_env(:myswt, :app, nil)}]
 	defp compile_iced do
 		case :os.cmd("cd #{Exutils.priv_dir(@main_app)}/iced && iced -c ./scripts.iced && mv ./scripts.js ../js/scripts.js" |> String.to_char_list) do
 			[] -> Myswt.notice "#{__MODULE__} : iced compilation ok."
