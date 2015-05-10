@@ -8,7 +8,7 @@ defmodule Myswt.Bullet do
   ########################
 
   def init(_Transport, req, _Opts, _Active) do
-    :pg2.join "web_viewers", self
+    :ok = :pg2.join "myswt_web_viewers", self
     IO.puts "Bullet handler: init"
     {:ok, req, :undefined_state}
   end
@@ -36,7 +36,7 @@ defmodule Myswt.Bullet do
     {:ok, req, state}
   end
   def terminate(_req, _state) do
-    :pg2.leave "web_viewers", self
+    :ok = :pg2.leave "myswt_web_viewers", self
   end
 
 end
