@@ -9,7 +9,6 @@ defmodule Myswt.Bullet do
 
   def init(_Transport, req, _Opts, _Active) do
     :ok = :pg2.join "myswt_web_viewers", self
-    IO.puts "Bullet handler: init"
     {:ok, req, :undefined_state}
   end
   def stream(data, req, state) do
