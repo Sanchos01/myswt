@@ -8,7 +8,6 @@ defmodule Myswt do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
     :ok = :pg2.create("myswt_web_viewers")
-	compile_iced
     children = [
       # Define workers and child supervisors to be supervised
       # worker(Myswt.Worker, [arg1, arg2, arg3])
@@ -78,15 +77,6 @@ defmodule Myswt do
 	#
 	#	priv
 	#
-
-	use Silverb, [{"@main_app", :application.get_env(:myswt, :app, nil)}]
-	defp compile_iced do
-		case :os.cmd("cd #{Exutils.priv_dir(@main_app)}/iced && iced -c ./scripts.iced && mv ./scripts.js ../js/scripts.js" |> String.to_char_list) do
-			[] -> Myswt.notice "#{__MODULE__} : iced compilation ok."
-			error -> Myswt.error "#{__MODULE__} : iced compilation result : #{inspect error}"
-		end
-		File.read!( Exutils.priv_dir(@main_app)<>"/js/scripts.js" )
-	end
 
 	defmacro callback_module([do: body]) do
 		quote location: :keep do

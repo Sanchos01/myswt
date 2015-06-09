@@ -5,7 +5,7 @@ defmodule Mix.Tasks.Myswt.Init do
 			true -> 
 				ReleaseManager.Utils.error "FAIL, priv dir is already exist!"
 			false ->
-				:os.cmd('cd ./deps/myswt && git submodule init && git submodule update') |> IO.inspect
+				:os.cmd('cd ./deps/myswt && git submodule init && git submodule update') |> ReleaseManager.Utils.warn
 				File.cp_r!(Exutils.priv_dir(:myswt)<>"/priv", "./priv")
 				ReleaseManager.Utils.info "SUCCESS, priv dir with MYSWT template created!"
 		end
