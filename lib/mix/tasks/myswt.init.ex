@@ -1,5 +1,5 @@
 defmodule Mix.Tasks.Myswt.Init do
-	use     Mix.Task
+	use Mix.Task
 	def run(_) do
 		case File.exists?("./priv") do
 			true -> 

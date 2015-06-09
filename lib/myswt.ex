@@ -1,5 +1,6 @@
 defmodule Myswt do
   use Application
+  use Silverb
   use Myswt.Srtucts
   require Logger
   require Exutils

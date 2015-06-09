@@ -1,8 +1,9 @@
 Myswt
 =====
 
-WARNING ,  external deps
+WARNING! External deps !!!
 ```
+git
 npm
 bower
 brunch
@@ -16,7 +17,7 @@ mix myswt.init
 mix myswt.build
 ```
 
-It creates in priv dir skeleton of client-side code of your great_web_application
+It creates in priv/megaweb dir skeleton of client-side code of your great_web_application
 Next, write configuration for myswt
 
 ```
@@ -75,7 +76,6 @@ Next, write some client-side coffeescript code, do some html. Use twitter bootst
 Now you are ready to run your server! IcedCoffeescript files will compile in start of application. Yeah, you need compiler, you can use npm to get it. 
 
 ```
-2015-05-07 02:23:07.841 [debug] Elixir.Myswt : iced compilation ok.
 2015-05-07 02:23:08.291 [debug] HTTP MYSWT server started at port 8081
 Interactive Elixir (1.0.3) - press Ctrl+C to exit (type h() ENTER for help)
 iex(1)>
