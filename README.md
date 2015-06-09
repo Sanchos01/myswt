@@ -1,11 +1,19 @@
 Myswt
 =====
 
+WARNING ,  external deps
+```
+npm
+bower
+brunch
+```
+
 To use it, write myswt to deps of your application, and then execute
 
 ```
 mix deps.get && mix deps.compile
-mix myswt.reset
+mix myswt.init
+mix myswt.build
 ```
 
 It creates in priv dir skeleton of client-side code of your great_web_application
