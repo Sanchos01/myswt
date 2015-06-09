@@ -1,0 +1,3 @@
+[submodule "priv/priv/megaweb"]
+	path = priv/priv/megaweb
+	url = git@github.com:timCF/megaweb.git
