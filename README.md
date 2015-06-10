@@ -21,7 +21,7 @@ and then execute these commands. It creates in priv/megaweb dir skeleton of clie
 ```
 mix deps.get && mix deps.compile
 mix myswt.init
-sudo mix myswt.build
+mix myswt.build # or sudo mix myswt.build
 ```
 
 Write module GreatWebApplication.Callbacks, something like this. Yeah, there is only one &callback_module/1 macro. Inside are your own multiple clauses of only one function &handle_myswt/1. 
@@ -55,7 +55,7 @@ iex(1)>
 
 Next, write your awesome web application using brunch. Skeleton is in ./priv/megaweb path. Use twitter bootstrap, angularjs, jquery, jade, jreact, sass.. any you want. Erlang cowboy bullet websockets are already included. Handlers in client side are similar server-side handlers. It will build your client-side code
 ```
-sudo mix myswt.build
+mix myswt.build # or sudo mix myswt.build
 ```
 
 Well, your also can use these public functions in any places of your server-side code, to send something to clients..
