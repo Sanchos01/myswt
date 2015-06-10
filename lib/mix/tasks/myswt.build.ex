@@ -8,7 +8,7 @@ defmodule Mix.Tasks.Myswt.Build do
 				:os.cmd('cd ./priv/megaweb && npm install') |> to_string |> ReleaseManager.Utils.warn
 				:os.cmd('cd ./priv/megaweb && bower install') |> to_string |> ReleaseManager.Utils.warn
 				:os.cmd('cd ./priv/megaweb && brunch build') |> to_string |> ReleaseManager.Utils.warn
-				:os.cmd('cd ./priv/megaweb/public && mv ./* ../../') |> to_string |> ReleaseManager.Utils.warn
+				:os.cmd('cd ./priv/megaweb/public && cp -R ./* ../../') |> to_string |> ReleaseManager.Utils.warn
 				ReleaseManager.Utils.info "SUCCESS, attempt to build brunch was executed"
 		end
 	end
