@@ -10,7 +10,6 @@ defmodule Mix.Tasks.Myswt.Init do
 				:os.cmd('cd ./deps/myswt && git submodule init && git submodule update') |> to_string |> Myswt.Console.warn
 				File.cp_r!(Exutils.priv_dir(:myswt)<>"/priv", "./priv")
 				:os.cmd('cd ./priv/megaweb && rm -rf ./.git*') |> to_string |> Myswt.Console.warn
-				:os.cmd('cd ./priv/megaweb/app/scripts/ && sed -i -e \'s/:8081/:#{:application.get_env(:myswt, :server_port, nil)}/\' ./app.coffee') |> to_string |> Myswt.Console.warn
 				Myswt.Console.notice("SUCCESS, priv dir with MYSWT template created!")
 		end
 	end
