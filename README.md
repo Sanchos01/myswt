@@ -21,7 +21,7 @@ and then execute these commands. It creates in priv/megaweb dir skeleton of clie
 ```
 mix deps.get && mix deps.compile
 mix myswt.init
-mix myswt.build # or sudo mix myswt.build
+mix myswt.build | mix myswt.build sudo
 ```
 
 Write module GreatWebApplication.Callbacks, something like this. Yeah, there is only one &callback_module/1 macro. Inside are your own multiple clauses of only one function &handle_myswt/1. 

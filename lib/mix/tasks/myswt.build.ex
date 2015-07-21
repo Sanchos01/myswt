@@ -1,13 +1,21 @@
 defmodule Mix.Tasks.Myswt.Build do
 	use Silverb
 	use Mix.Task
-	def run(_) do
+	def run(args) do
 		Enum.each([:tools, :exactor, :extask, :hashex, :exutils, :silverb, :tinca, :logex], &(:ok = :application.start(&1)))
+		sudo = 	case args do
+					[] -> ""
+					["sudo"] -> "sudo"
+					err -> 
+						mess = "FAIL! Incorrect args #{inspect err}. Usage : 'mix myswt.build' | 'mix myswt.build sudo'"
+						Myswt.Console.error(mess)
+						raise(mess)
+				end
 		case File.exists?("./priv/megaweb") do
 			false -> 
 				Myswt.Console.error("FAIL! First, do 'mix myswt.init'")
 			true ->
-				:os.cmd('cd ./priv/megaweb && npm install') |> to_string |> Myswt.Console.warn
+				:os.cmd('cd ./priv/megaweb && #{sudo} npm install') |> to_string |> Myswt.Console.warn
 				:os.cmd('cd ./priv/megaweb && bower install') |> to_string |> Myswt.Console.warn
 				:os.cmd('cd ./priv/megaweb && brunch build') |> to_string |> Myswt.Console.warn
 				:os.cmd('cd ./priv/megaweb/public && cp -R ./* ../../') |> to_string |> Myswt.Console.warn
