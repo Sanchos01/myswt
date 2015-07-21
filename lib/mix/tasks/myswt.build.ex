@@ -2,6 +2,7 @@ defmodule Mix.Tasks.Myswt.Build do
 	use Silverb
 	use Mix.Task
 	def run(_) do
+		Enum.each([:tools, :exactor, :extask, :hashex, :exutils, :silverb, :tinca, :logex], &(:ok = :application.start(&1)))
 		case File.exists?("./priv/megaweb") do
 			false -> 
 				Myswt.Console.error("FAIL! First, do 'mix myswt.init'")

@@ -2,6 +2,7 @@ defmodule Mix.Tasks.Myswt.Init do
 	use Silverb
 	use Mix.Task
 	def run(_) do
+		Enum.each([:tools, :exactor, :extask, :hashex, :exutils, :silverb, :tinca, :logex], &(:ok = :application.start(&1)))
 		case File.exists?("./priv") do
 			true -> 
 				Myswt.Console.error("FAIL, priv dir is already exist!")
