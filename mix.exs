@@ -18,11 +18,11 @@ defmodule Myswt.Mixfile do
 						:cowboy,
 						:bullet,
 						:jazz,
-						:exrm,
 
 						:exutils,
 						:hashex,
-						:silverb
+						:silverb,
+            :logex
     				],
      mod: {Myswt, []}]
   end
@@ -41,11 +41,11 @@ defmodule Myswt.Mixfile do
     	{:cowboy, github: "ninenines/cowboy", tag: "0.9.0", override: true},
     	{:bullet, github: "extend/bullet"},
     	{:jazz, github: "meh/jazz"},
-    	{:exrm, github: "bitwalker/exrm"},
 
     	{:exutils, github: "timCF/exutils"},
     	{:hashex, github: "timCF/hashex"},
-    	{:silverb, github: "timCF/silverb"}
+    	{:silverb, github: "timCF/silverb"},
+      {:logex, github: "timCF/logex"}
     ]
   end
 end

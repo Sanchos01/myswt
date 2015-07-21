@@ -4,6 +4,10 @@ defmodule Myswt do
   use Myswt.Srtucts
   require Logger
   require Exutils
+  defmodule Console do
+  	use Silverb
+  	use Logex, [ttl: 100]
+  end
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
@@ -49,18 +53,9 @@ defmodule Myswt do
 	#	public
 	#
 
-	def notice(bin) when is_binary(bin) do
-		send_all(%Myswt.Proto{subject: "notice", content: bin})
-		Logger.debug bin
-	end
-	def warn(bin) when is_binary(bin) do
-		send_all(%Myswt.Proto{subject: "warn", content: bin})
-		Logger.warn bin
-	end
-	def error(bin) when is_binary(bin) do
-		send_all(%Myswt.Proto{subject: "error", content: bin})
-		Logger.error bin
-	end	
+	def notice(bin) when is_binary(bin), do: send_all(%Myswt.Proto{subject: "notice", content: bin})
+	def warn(bin) when is_binary(bin), do: send_all(%Myswt.Proto{subject: "warn", content: bin})
+	def error(bin) when is_binary(bin), do: send_all(%Myswt.Proto{subject: "error", content: bin})
 
 	def send_all(some = %Myswt.Proto{}) do
 		mess = Myswt.encode(some)

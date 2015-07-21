@@ -1,4 +1,5 @@
 defmodule Myswt.Srtucts do
+	use Silverb
 	defmacro __using__(_) do
 		quote location: :keep do
 			use Hashex, [
