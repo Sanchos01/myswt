@@ -2,7 +2,7 @@ defmodule Mix.Tasks.Myswt.Build do
 	use Silverb
 	use Mix.Task
 	def run(args) do
-		Enum.each([:tools, :exactor, :extask, :hashex, :exutils, :silverb, :tinca, :logex], &(:ok = :application.start(&1)))
+		Enum.each([:tools, :exactor, :extask, :hashex, :exutils, :exrm, :silverb, :tinca, :logex], &(:ok = :application.start(&1)))
 		sudo = 	case args do
 					[] -> ""
 					["sudo"] -> "sudo"
