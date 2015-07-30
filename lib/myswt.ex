@@ -41,7 +41,7 @@ defmodule Myswt do
 	                             {"/bullet", :bullet_handler, [{:handler, Myswt.Bullet}]},
 	                             {"/index.html", Myswt.ResourceLoader, ["#{Exutils.priv_dir(@main_app)}/index.html"]},
 	                             {"/", Myswt.ResourceLoader, ["#{Exutils.priv_dir(@main_app)}/index.html"]},
-	                             {"/[...]", :cowboy_static, {:priv_dir, @main_app, "", [{:mimetypes, :cow_mimetypes, :all}]}}
+	                             {"/[...]", Myswt.ResourceLoader, [nil]}
 	                      ]} ])
 		  	res = {:ok, _} = :cowboy.start_http(:http_test_listener, 5000, [port: @port], [env: [ dispatch: dispatch ] ])
 		  	Myswt.notice "HTTP MYSWT server started at port #{@port}"
