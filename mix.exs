@@ -14,6 +14,7 @@ defmodule Myswt.Mixfile do
   def application do
     [applications: 	[
     					:logger,
+              :mimetypes,
 
 						:cowboy,
 						:bullet,
@@ -38,6 +39,7 @@ defmodule Myswt.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [
+      {:mimetypes, github: "spawngrid/mimetypes"},
     	{:cowboy, github: "ninenines/cowboy", tag: "0.9.0", override: true},
     	{:bullet, github: "timCF/bullet", override: true},
     	{:jazz, github: "meh/jazz"},
