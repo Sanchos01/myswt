@@ -39,7 +39,7 @@ defmodule Myswt.Mixfile do
   defp deps do
     [
     	{:cowboy, github: "ninenines/cowboy", tag: "0.9.0", override: true},
-    	{:bullet, github: "extend/bullet"},
+    	{:bullet, github: "timCF/bullet", override: true},
     	{:jazz, github: "meh/jazz"},
 
     	{:exutils, github: "timCF/exutils"},

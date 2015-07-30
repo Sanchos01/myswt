@@ -17,7 +17,13 @@ use Mix.Config
      config :myswt, 
      	app: :my_main_app,
      	server_port: 8081,
-     	callback_module: Myswt.Example
+     	callback_module: Myswt.Example,
+     	basic_auth: %{login: "login", password: "password"}
+     #
+     #	basic auth for websockets if need
+     #
+     config :bullet,
+		basic_auth: %{login: "login", password: "password"}
 
 # It is also possible to import configuration files, relative to this
 # directory. For example, you can emulate configuration per environment
