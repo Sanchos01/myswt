@@ -19,6 +19,7 @@ defmodule Mix.Tasks.Myswt.Build do
 				:os.cmd('cd ./priv/megaweb && bower install') |> to_string |> Myswt.Console.warn
 				:os.cmd('cd ./priv/megaweb && brunch build') |> to_string |> Myswt.Console.warn
 				:os.cmd('cd ./priv/megaweb/public && cp -R ./* ../../') |> to_string |> Myswt.Console.warn
+				:os.cmd('cp ./priv/megaweb/favicon.ico ./priv/favicon.ico') |> to_string |> Myswt.Console.warn
 				[_, version] = Regex.run(~r/^{\"versionExt\":\"([\d\.]+)\"}$/, File.read!("./priv/version.json") |> String.replace(" ", "") |> String.replace("\n", ""))
 				Myswt.Console.notice("got version #{version}")
 				case :application.get_env(:myswt, :server_port, nil) do 
