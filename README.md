@@ -11,10 +11,13 @@ brunch
 
 To use it, write myswt to deps of your application, write config
 ```
-config :myswt, 
-	app: :great_web_application, 
-	server_port: 8081, 
-	callback_module: GreatWebApplication.Callbacks
+     config :myswt, 
+     	app: :my_main_app,
+     	server_port: 8081,
+     	callback_module: Myswt.Example,
+     	basic_auth: %{login: "login", password: "password"}
+     config :bullet,
+		basic_auth: %{login: "login", password: "password"}
 ```
 
 and then execute these commands. It creates in priv/megaweb dir skeleton of client-side code of your great_web_application.
