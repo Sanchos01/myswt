@@ -57,6 +57,11 @@ defmodule Myswt do
 	def warn(bin) when is_binary(bin), do: send_all(%Myswt.Proto{subject: "warn", content: bin})
 	def error(bin) when is_binary(bin), do: send_all(%Myswt.Proto{subject: "error", content: bin})
 
+	def get_all, do: :pg2.get_members("myswt_web_viewers")
+
+	def send_to(some = %Myswt.Proto{}, pid), do: send(pid, {:json, Myswt.encode(some)})
+	def send_to_direct(some, pid) when is_binary(bin), do: send(pid, {:json, some})
+
 	def send_all(some = %Myswt.Proto{}) do
 		mess = Myswt.encode(some)
 		:pg2.get_members("myswt_web_viewers")
