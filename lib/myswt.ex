@@ -5,7 +5,10 @@ defmodule Myswt do
   require Exutils
   defmodule Console do
   	use Silverb
-  	use Logex, [ttl: 100]
+    require Logger
+    def notice(bin) when is_binary(bin), do: Logger.info(bin)
+    def warn(bin) when is_binary(bin), do: Logger.warn(bin)
+    def error(bin) when is_binary(bin), do: Logger.error(bin)
   end
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications

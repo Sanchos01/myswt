@@ -23,7 +23,6 @@ defmodule Myswt.Mixfile do
 						:exutils,
 						:hashex,
 						:silverb,
-            :logex
     				],
      mod: {Myswt, []}]
   end
@@ -47,7 +46,6 @@ defmodule Myswt.Mixfile do
     	{:exutils, github: "timCF/exutils"},
     	{:hashex, github: "timCF/hashex"},
     	{:silverb, github: "timCF/silverb"},
-      {:logex, github: "timCF/logex"}
     ]
   end
 end

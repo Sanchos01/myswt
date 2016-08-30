@@ -12,7 +12,6 @@
   "getopt": {:hex, :getopt, "0.8.2", "b17556db683000ba50370b16c0619df1337e7af7ecbf7d64fbf8d1d6bce3109b", [:rebar], []},
   "hashex": {:git, "https://github.com/timCF/hashex.git", "cc6b4307daa1ab18c94cdd33bf3cb8a3dab28b96", []},
   "jazz": {:git, "https://github.com/meh/jazz.git", "49f335492aca5516495199dd81dd18b845ebaa69", []},
-  "logex": {:git, "https://github.com/timCF/logex.git", "074e631a59f689bc8b52b803f1a6ecc1819e8240", []},
   "mimetypes": {:git, "https://github.com/spawngrid/mimetypes.git", "47d37a977a7d633199822bf6b08353007483d00f", []},
   "providers": {:hex, :providers, "1.6.0", "db0e2f9043ae60c0155205fcd238d68516331d0e5146155e33d1e79dc452964a", [:rebar3], [{:getopt, "0.8.2", [hex: :getopt, optional: false]}]},
   "quickrand": {:hex, :quickrand, "1.5.0", "5281e9b2bae77fd4d9f83824c4debd5848695460797000091600218523e57062", [:rebar], []},
