@@ -1,7 +1,7 @@
 defmodule Mix.Tasks.Myswt.Init do
 	use Mix.Task
 	def run(_) do
-		Enum.each([:tools, :uuid, :exactor, :extask, :hashex, :exutils, :exrm, :silverb, :tinca, :logex, :mimetypes], &(:ok = :application.start(&1)))
+		Enum.each([:bullet, :conform, :cowboy, :cowlib, :exactor, :exrm, :extask, :exutils, :hashex, :jazz, :logex, :mimetypes, :quickrand, :ranch, :silverb, :tinca, :uuid, :tools], &(:application.start(&1)))
 		case File.exists?("./priv") do
 			true ->
 				Myswt.Console.error("FAIL, priv dir is already exist!")

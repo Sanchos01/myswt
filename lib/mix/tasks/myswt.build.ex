@@ -1,7 +1,7 @@
 defmodule Mix.Tasks.Myswt.Build do
 	use Mix.Task
 	def run(args) do
-		Enum.each([:tools, :uuid, :exactor, :extask, :hashex, :exutils, :exrm, :silverb, :tinca, :logex, :mimetypes], &(:ok = :application.start(&1)))
+		Enum.each([:bullet, :conform, :cowboy, :cowlib, :exactor, :exrm, :extask, :exutils, :hashex, :jazz, :logex, :mimetypes, :quickrand, :ranch, :silverb, :tinca, :uuid, :tools], &(:application.start(&1)))
 		sudo = 	case args do
 					[] -> ""
 					["sudo"] -> "sudo"
