@@ -1,5 +1,4 @@
 defmodule Mix.Tasks.Myswt.Build do
-	use Silverb
 	use Mix.Task
 	def run(args) do
 		Enum.each([:tools, :uuid, :exactor, :extask, :hashex, :exutils, :exrm, :silverb, :tinca, :logex, :mimetypes], &(:ok = :application.start(&1)))
