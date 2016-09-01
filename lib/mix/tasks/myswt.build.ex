@@ -4,6 +4,7 @@ defmodule Mix.Tasks.Myswt.Build do
 		Enum.each([:bullet, :conform, :cowboy, :cowlib, :exactor, :exrm, :extask, :exutils, :hashex, :jazz, :logex, :mimetypes, :quickrand, :ranch, :silverb, :tinca, :uuid, :tools], &(:application.start(&1)))
 		sudo = 	case args do
 					[] -> ""
+					["noprod"] -> ""
 					["sudo"] -> "sudo"
 					err ->
 						mess = "FAIL! Incorrect args #{inspect err}. Usage : 'mix myswt.build' | 'mix myswt.build sudo'"
@@ -16,7 +17,7 @@ defmodule Mix.Tasks.Myswt.Build do
 			true ->
 				:os.cmd('cd ./priv/megaweb && #{sudo} npm install') |> to_string |> Myswt.Console.warn
 				:os.cmd('cd ./priv/megaweb && bower install') |> to_string |> Myswt.Console.warn
-				:os.cmd('cd ./priv/megaweb && brunch b --production') |> to_string |> Myswt.Console.warn
+				:os.cmd('cd ./priv/megaweb && brunch b #{(case Enum.member?(args, "noprod") do ; true -> "" ; false -> " --production" ; end)}') |> to_string |> Myswt.Console.warn
 				:os.cmd('cd ./priv/megaweb/public && cp -R ./* ../../') |> to_string |> Myswt.Console.warn
 				:os.cmd('cp ./priv/megaweb/favicon.ico ./priv/favicon.ico') |> to_string |> Myswt.Console.warn
 				[_, version] = Regex.run(~r/^{\"versionExt\":\"([\d\.]+)\"}$/, File.read!("./priv/version.json") |> String.replace(" ", "") |> String.replace("\n", ""))
