@@ -26,6 +26,7 @@ defmodule Mix.Tasks.Myswt.Build do
 					port when (is_integer(port) and (port > 0)) ->
 						Myswt.Console.notice("got port #{port}")
 						File.write!("./priv/js/app.js", File.read!("./priv/js/app.js") |> String.replace("__VERSION__", version) |> String.replace("__PORT__", to_string(port)))
+						File.write!("./priv/index.html", File.read!("./priv/index.html") |> String.replace("__VERSION__", version))
 						Myswt.Console.notice("SUCCESS, attempt to build brunch was executed")
 					error ->
 						mess = "wrong port #{error}"
